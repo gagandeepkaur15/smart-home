@@ -33,6 +33,14 @@ class DashboardScreen extends StatelessWidget {
           ],
         ),
       ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            context.push('/ble-scan');
+          },
+          child: const Text("Ble Scan"),
+        ),
+      ),
     );
   }
 }

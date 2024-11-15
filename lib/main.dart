@@ -1,9 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:smart_home/bloc/auth/auth_bloc.dart';
+import 'package:smart_home/bloc/ble/ble_bloc.dart';
 import 'package:smart_home/routes/routes.dart';
-import 'package:smart_home/screens/login.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -11,6 +12,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await Permission.bluetoothScan.request();
+  await Permission.bluetoothConnect.request();
+  await Permission.location.request();
   runApp(const MyApp());
 }
 
@@ -22,19 +26,18 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => AuthenticationBloc()),
+        BlocProvider(create: (_) => BLEBloc()),
       ],
-      child: Builder(
-        builder: (context) {
-          return MaterialApp.router(
-            title: 'Flutter Demo',
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-              useMaterial3: true,
-            ),
-            routerConfig: router(BlocProvider.of<AuthenticationBloc>(context)),
-          );
-        }
-      ),
+      child: Builder(builder: (context) {
+        return MaterialApp.router(
+          title: 'Flutter Demo',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            useMaterial3: true,
+          ),
+          routerConfig: router(BlocProvider.of<AuthenticationBloc>(context)),
+        );
+      }),
     );
   }
 }
