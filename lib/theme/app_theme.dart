@@ -29,6 +29,11 @@ extension ThemeExtension on BuildContext {
           fontWeight: FontWeight.w600,
           color: AppColors.whiteText,
         ),
+        bodyLarge: GoogleFonts.inter(
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+          color: AppColors.blackText,
+        ),
         bodyMedium: GoogleFonts.inter(
           fontSize: 16,
           fontWeight: FontWeight.w400,
