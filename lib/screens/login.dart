@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:smart_home/bloc/auth/auth_bloc.dart';
 import 'package:smart_home/bloc/auth/auth_event.dart';
 import 'package:smart_home/bloc/auth/auth_state.dart';
@@ -29,6 +30,7 @@ class LoginScreen extends StatelessWidget {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text('Welcome ${state.user.displayName}'),
             ));
+            context.go("/dashboard");
           } else if (state is AuthenticationFailureState) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(state.message),
