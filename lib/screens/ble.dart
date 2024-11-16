@@ -7,8 +7,21 @@ import 'package:smart_home/bloc/ble/ble_event.dart';
 import 'package:smart_home/bloc/ble/ble_state.dart';
 import 'package:smart_home/theme/app_theme.dart';
 
-class BLEScanScreen extends StatelessWidget {
+class BLEScanScreen extends StatefulWidget {
   const BLEScanScreen({super.key});
+
+  @override
+  State<BLEScanScreen> createState() => _BLEScanScreenState();
+}
+
+class _BLEScanScreenState extends State<BLEScanScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    final bleBloc = BlocProvider.of<BLEBloc>(context, listen: false);
+    bleBloc.add(BLEInitialLoad());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +52,39 @@ class BLEScanScreen extends StatelessWidget {
                   List devices = [];
                   String? connectedDeviceName;
                   String? connectedDeviceId;
-
-                  if (state is BLEScanCompleteState) {
+                  if (state is BLECachedDevicesState) {
+                    return ListView.builder(
+                      itemCount: state.devices.length,
+                      itemBuilder: (context, index) {
+                        final device = state.devices[index];
+                        return Column(
+                          children: [
+                            const SizedBox(height: 20),
+                            Text(
+                              "Cached Devices",
+                              style:
+                                  context.theme.textTheme.bodyLarge!.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            ListTile(
+                              title: Text(
+                                device.name.isNotEmpty
+                                    ? device.name
+                                    : "Unknown Device",
+                                style: context.theme.textTheme.bodyMedium,
+                              ),
+                              subtitle: Text(
+                                device.id,
+                                style: context.theme.textTheme.bodySmall,
+                              ),
+                              onTap: () {},
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  } else if (state is BLEScanCompleteState) {
                     devices = state.devices;
                   } else if (state is BLEDeviceConnectedState) {
                     connectedDeviceName = state.device.name.isNotEmpty

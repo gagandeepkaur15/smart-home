@@ -7,6 +7,20 @@ class BLEBloc extends Bloc<BLEEvent, BLEState> {
   final BLEService _bleService = BLEService();
 
   BLEBloc() : super(BLEInitialState()) {
+    on<BLEInitialLoad>((event, emit) async {
+      emit(BLEInitialState());
+      try {
+        final cachedDevices = await _bleService.getCachedDevices();
+        if (cachedDevices.isNotEmpty) {
+          emit(BLECachedDevicesState(cachedDevices));
+        } else {
+          emit(BLEDeviceErrorState("No cached devices found"));
+        }
+      } catch (e) {
+        emit(BLEDeviceErrorState("Failed to load cached devices"));
+      }
+    });
+
     on<BLEScanStart>((event, emit) async {
       emit(BLEScanInProgressState());
       try {
@@ -14,6 +28,7 @@ class BLEBloc extends Bloc<BLEEvent, BLEState> {
         if (devices.isEmpty) {
           emit(BLEDeviceErrorState("No devices found"));
         } else {
+          await _bleService.saveDevices(devices);
           emit(BLEScanCompleteState(devices));
         }
       } catch (e) {

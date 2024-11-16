@@ -22,7 +22,7 @@ class MQTTMessagePublishedState extends MQTTState {
 }
 
 class MQTTMessageReceivedState extends MQTTState {
-   MQTTMessageReceivedState(List<String> messages) : super(messages);
+   MQTTMessageReceivedState(super.messages);
 }
 
 class MQTTErrorState extends MQTTState {

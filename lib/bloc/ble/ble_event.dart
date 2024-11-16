@@ -6,6 +6,7 @@ abstract class BLEEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class BLEInitialLoad extends BLEEvent {}
 
 class BLEScanStart extends BLEEvent {}
 

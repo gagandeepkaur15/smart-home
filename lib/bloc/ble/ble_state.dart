@@ -1,8 +1,15 @@
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:smart_home/models/cached_device.dart';
 
 abstract class BLEState {}
 
 class BLEInitialState extends BLEState {}
+
+class BLECachedDevicesState extends BLEState {
+  final List<CachedDevice> devices;
+
+  BLECachedDevicesState(this.devices);
+}
 
 class BLEScanInProgressState extends BLEState {}
 

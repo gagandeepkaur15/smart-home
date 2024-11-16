@@ -43,7 +43,7 @@ GoRouter router(AuthenticationBloc authBloc) {
       GoRoute(
         path: '/ble-scan',
         builder: (BuildContext context, GoRouterState state) {
-          return BLEScanScreen();
+          return const BLEScanScreen();
         },
       ),
     ],

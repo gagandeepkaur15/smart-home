@@ -1,13 +1,51 @@
 // ignore_for_file: deprecated_member_use
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smart_home/models/cached_device.dart';
 
 class BLEService {
+  Future<void> saveDevices(List<BluetoothDevice> devices) async {
+    final prefs = await SharedPreferences.getInstance();
+    List<String> deviceData = devices.map((device) {
+      final deviceMap = {
+        "id": device.id.toString(),
+        "name": device.name,
+      };
+      return jsonEncode(deviceMap);
+    }).toList();
+    await prefs.setStringList('scanned_devices', deviceData);
+  }
+
+  Future<List<CachedDevice>> getCachedDevices() async {
+    final prefs = await SharedPreferences.getInstance();
+    List<String>? deviceData = prefs.getStringList('scanned_devices');
+
+    if (deviceData != null && deviceData.isNotEmpty) {
+      return deviceData
+          .map((data) {
+            try {
+              final deviceMap = Map<String, String>.from(jsonDecode(data));
+              return CachedDevice(deviceMap['id']!, deviceMap['name']!);
+            } catch (e) {
+              debugPrint("Error decoding device data: $e");
+              return null;
+            }
+          })
+          .whereType<CachedDevice>()
+          .toList();
+    }
+    return [];
+  }
+
   // Scan for available devices
   Future<List<BluetoothDevice>> scanForDevices() async {
     List<BluetoothDevice> devices = [];
+
     try {
       await requestBluetoothPermissions();
       final isBluetoothOn = await FlutterBluePlus.isOn;
