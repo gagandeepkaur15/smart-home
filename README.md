@@ -1,16 +1,59 @@
-# smart_home
+# Smart Home
 
-A new Flutter project.
+## Description
+
+A Flutter application that integrates Firebase for authentication and data storage, Bluetooth Low Energy (BLE) functionality using `flutter_blue_plus`, and MQTT communication for real-time messaging. The app uses `flutter_bloc` for state management.
+
+---
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+### 1. Clone the Repository
 
-A few resources to get you started if this is your first Flutter project:
+```
+git clone <repository_url>
+cd <project_directory>
+```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### 2. Install Dependencies
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Run the following command to fetch the project dependencies:
+
+```
+flutter pub get
+```
+
+### 3. Firebase Setup
+
+1. Set up a Firebase project and enable Firebase Authentication.
+2. Download the google-services.json for Android or GoogleService-Info.plist for iOS.
+3. Place the respective file in the correct directory:
+- Android: android/app/
+- iOS: ios/Runner/
+
+### 4. Bluetooth and Permissions
+
+Ensure necessary Bluetooth and location permissions are added:
+
+- Android: Modify AndroidManifest.xml with required Bluetooth and location permissions.
+- iOS: Modify Info.plist for Bluetooth permissions.
+
+ ### 5. Run the App
+
+ ```
+flutter run
+```
+
+### Dependencies
+
+The project uses the following dependencies:
+
+- firebase_core
+- flutter_bloc
+- firebase_auth
+- google_fonts
+- go_router
+- flutter_blue_plus
+- permission_handler
+- mqtt_client
+- shared_preferences
