@@ -6,6 +6,7 @@ import 'package:smart_home/bloc/auth/auth_state.dart';
 import 'package:smart_home/screens/ble.dart';
 import 'package:smart_home/screens/dashboard.dart';
 import 'package:smart_home/screens/login.dart';
+import 'package:smart_home/screens/signup.dart';
 
 GoRouter router(AuthenticationBloc authBloc) {
   return GoRouter(
@@ -13,9 +14,11 @@ GoRouter router(AuthenticationBloc authBloc) {
     refreshListenable: GoRouterRefreshStream(authBloc.stream),
     redirect: (context, state) {
       final authState = authBloc.state;
-      if (authState is AuthenticationFailureState ||
-          authState is AuthenticationInitialState) {
-        return '/';
+      if (state.uri.toString() != '/sign-up') {
+        if (authState is AuthenticationFailureState ||
+            authState is AuthenticationInitialState) {
+          return '/';
+        }
       }
       return null;
     },
@@ -44,6 +47,18 @@ GoRouter router(AuthenticationBloc authBloc) {
         path: '/ble-scan',
         builder: (BuildContext context, GoRouterState state) {
           return const BLEScanScreen();
+        },
+      ),
+      GoRoute(
+        path: '/sign-up',
+        builder: (BuildContext context, GoRouterState state) {
+          return SignUpScreen();
+        },
+      ),
+      GoRoute(
+        path: '/login',
+        builder: (BuildContext context, GoRouterState state) {
+          return LoginScreen();
         },
       ),
     ],

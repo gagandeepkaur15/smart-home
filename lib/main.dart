@@ -14,9 +14,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await Permission.bluetoothScan.request();
-  await Permission.bluetoothConnect.request();
-  await Permission.location.request();
+  // await Permission.bluetoothScan.request();
+  // await Permission.bluetoothConnect.request();
+  // await Permission.location.request();
   runApp(const MyApp());
 }
 
